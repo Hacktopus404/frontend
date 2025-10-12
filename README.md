@@ -1,6 +1,26 @@
-# 🌐 Full-Stack Web Application
+<p align="center">
+  <img src="https://media1.giphy.com/media/iFmw13LV1hHhViPPWz/source.gif" width=600 />
+</p>
+
+<h1 align="center"># 🌐 Frontend</h1>
 
 ### ⚡ Built with Modern Web Tech — *CSS • JavaScript • React • Node.js • MongoDB • 2D Animations*
+
+---
+
+## 🎨 Tech Stack & Libraries
+
+<p align="center">
+  <img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white" alt="HTML5"/>
+  <img src="https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white" alt="CSS3"/>
+  <img src="https://img.shields.io/badge/JavaScript-F7E018?style=for-the-badge&logo=javascript&logoColor=black" alt="JavaScript"/>
+  <img src="https://img.shields.io/badge/React-61DBFB?style=for-the-badge&logo=react&logoColor=black" alt="React"/>
+  <img src="https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white" alt="Node.js"/>
+  <img src="https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white" alt="Express.js"/>
+  <img src="https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white" alt="MongoDB"/>
+  <img src="https://img.shields.io/badge/FramerMotion-0055FF?style=for-the-badge&logo=framer&logoColor=white" alt="Framer Motion"/>
+  <img src="https://img.shields.io/badge/2D_Animations-FF69B4?style=for-the-badge&logo=adobeaftereffects&logoColor=white" alt="2D Animations"/>
+</p>
 
 ---
 
@@ -70,6 +90,8 @@ Make sure you have installed:
 ### 🧭 Steps to Run Locally
 
 ```bash
+
+
 # Clone this repository
 git clone https://github.com/yourusername/project-name.git
 
