@@ -89,6 +89,10 @@ Make sure you have installed:
 
 ### 🧭 Steps to Run Locally
 
+
+<h3 align="center"><i>Maintainor : </i><a href="https://github.com/Jit338">Jit338</a></h3>
+<h4 align="center"><i>Members : </i>Deep150106 , AdityaDas5501</h4>
+
 ```bash
 
 
