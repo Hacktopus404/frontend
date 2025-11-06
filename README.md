@@ -90,8 +90,8 @@ Make sure you have installed:
 ### 🧭 Steps to Run Locally
 
 
-<h3 align="center"><i>Maintainer : </i><a href="https://github.com/Jit338">Jit338</a></h3>
-<h4 align="center"><i>Members : </i><a href="https://github.com/Deep150106">Deep150106</a> , <a href="https://github.com/AdityaDas5501">AdityaDas5501</a></h4>
+<h3 align="center"><i>Maintainer : </i><a href="https://github.com/AdityaDas5501">AdityaDas5501</a></h3>
+<h4 align="center"><i>Members : </i><a href="https://github.com/Deep150106">Deep150106</a> , <a href="https://github.com/Jit338">Jit338</a></h4>
 
 ```bash
 
