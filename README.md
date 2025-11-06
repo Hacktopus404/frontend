@@ -91,7 +91,7 @@ Make sure you have installed:
 
 
 <h3 align="center"><i>Maintainer : </i><a href="https://github.com/AdityaDas5501">AdityaDas5501</a></h3>
-<h4 align="center"><i>Members : </i><a href="https://github.com/kishalaya15">Deep150106</a> , <a href="https://github.com/Jit338">Jit338</a></h4>
+<h4 align="center"><i>Members : </i><a href="https://github.com/kishalaya15">kishalaya15</a> , <a href="https://github.com/Jit338">Jit338</a></h4>
 
 ```bash
 
