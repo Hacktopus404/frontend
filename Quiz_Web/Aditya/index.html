@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/styles.css">
+    <title>Quiz App</title>
+</head>
+<body>
+    <section class="start-screen">
+            <div class="content-box">
+                <h1 id='start-heading'>Quiz Master</h1>
+                <button class="start-btn" onclick="startQuiz();">Start Quiz</button>
+                <br>
+                <button class="start-btn" onclick="viewHighScore(); rankList();">🏆 View High Scores</button>
+        </div>
+    </section>
+
+    <section class="quiz-screen">
+        <div class="content-box-quiz-screen">
+            <div class="header">
+                <div class="question-no">Question No. </div>
+                <div class="timer">Time Elapsed - </div>
+            </div>
+            <div class="question-canvas">
+                <div class="question"></div>
+                <div class="choices"></div>
+            </div>
+            <div class="nav">
+                <!-- <button onclick="prevQues()" class="prev-btn" style="display: none;">Previous</button> -->
+                 <div class="insta-ans"></div>
+                <button onclick="nextClick()" style="margin-left: auto; margin-right: 10px; margin-bottom: 10px;" class="nxt-btn">Check</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="result-screen">
+        <div class="result-box-quiz-screen">
+            <h1 class="result-header">Quiz Results</h1>
+            <div class="score" style="font-size: 2.6rem;"></div>
+            <div class="res-btn">
+                <div class="save-score" style="font-size: 2.6rem;">
+                    Enter your name: <input type="text" style="font-size: 2.6rem;" class="nameInput">
+                </div>
+                <div class="nav-result">
+                    <button onclick="saveScore(); rankList();">Save Score</button>
+                    <button style="margin-left: auto;" onclick="restart()">Restart Quiz</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="toast">
+            !!Enter your Name!!
+        </div>
+    </section>
+
+    <section class="highscore-screen">
+        <div class="highscore-box-quiz-screen">
+            <h1 id="highscore-header">High Score</h1>
+            <div class="rank-header">Rank List:</div>
+            <div class="rank-grid"></div>
+            <div class="bottom-option">
+                <button onclick="clearScore(); rankList();">Clear Scores</button>
+                <button style="margin-left: auto;" onclick="restart()">Back</button>
+            </div>
+        </div>
+    </section>
+
+    <script src="js/start_screen.js"></script>
+    <script src="js/questions.js"></script>
+    <script src="js/quiz_screen.js"></script>
+    <script src="js/scoring.js"></script>
+    <script src="js/result-screen.js"></script>
+    <script src="js/highscore_screen.js"></script>
+</body>
+</html>
