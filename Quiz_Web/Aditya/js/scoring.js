@@ -1,8 +1,7 @@
 window.score = 0;
 
 function currScore(){
-    
-    userChoices = userChoices.slice(1,userChoices.length);
+    score = 0;
     for(let i=0; i<questions.length; i++){
         if(userChoices[i]===questions[i].ans){
             score++;
