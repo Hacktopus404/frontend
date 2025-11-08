@@ -45,8 +45,6 @@ function nextClick(){
             userChoices.push(parseInt(selected.value));
         } 
         else    userChoices.push(0);
-        console.log(userChoices[userChoices.length-1]);
-        console.log(questions[questionNo-1].ans);
         document.querySelectorAll('.choice-btn').forEach(radio => {radio.disabled = true;});
         if(userChoices[userChoices.length-1]===0){
             document.querySelector('.insta-ans').style.visibility = 'visible';

@@ -4,6 +4,7 @@ function restart(){
     document.querySelector('.result-screen').style.display="none";
     document.querySelector('.start-screen').style.display="flex";
     questionNo=1;
+    userChoices = [];
     document.querySelector('.nxt-btn').innerText = 'Next';
 }
 
