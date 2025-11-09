@@ -2,7 +2,9 @@
   <img src="https://media1.giphy.com/media/iFmw13LV1hHhViPPWz/source.gif" width=600 />
 </p>
 
-<h1 align="center"># 🌐 Frontend</h1>
+<div align="center">
+  
+  # 🌐 Frontend</div>
 
 ### ⚡ Built with Modern Web Tech — *CSS • JavaScript • React • Node.js • MongoDB • 2D Animations*
 
