@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>quiz</title>
+    <link rel="stylesheet" href="quiz2.css">
+</head>
+<body>
+    <div id="dh">
+        <a id="gohome">G0 HOME</a>
+        <P>Quiz on Nature</P>
+        <h3 id="scoredis">score: 0</h3>
+        <h3 id="bestscore">Best Score</h3>
+    </div>
+    <div class="outer">
+    <h2>question</h2>
+    <hr>
+        <div class="quizbox">
+            <h1 id="question">question display here.</h1>
+            <hr>
+            <div id="answerbtns">
+                <button class="btn"> option1</button>
+                <button class="btn">option2</button>
+                <button class="btn">option3</button>
+                <button class="btn">option4</button>
+            </div>
+            <div id="next">next</div>
+            <div id="home"> Go home</div>
+        </div>
+    </div>
+    <script>
+        const questions =[
+                {
+                    question : "What is the layer of gases surrounding Earth called?",
+                    answers : [
+                        {text:"Air",solution: false},
+                        {text:"Ozone",solution: false},
+                        {text:"Oxygen",solution: false},
+                        {text:"Atmosphere",solution: true},
+                    ]
+                },
+                {
+                    question : "Which planet is known as the 'blue Planet'",
+                    answers : [
+                        {text:"Earth",solution: true},
+                        {text:"Pluto",solution: false},
+                        {text:"Mars",solution: false},
+                        {text:"Jupiter",solution: false},
+                    ]
+                },
+                {
+                    question : "What is the largest organ in the human body?",
+                    answers : [
+                        {text:"Spinel chord",solution: false},
+                        {text:"Skin",solution: true},
+                        {text:"Liver",solution: false},
+                        {text:"Kideney",solution: false},
+                    ]
+                },
+                {
+                    question : "Which part of a plant is responsible for photosynthesis?",
+                    answers : [
+                        {text:"Bark",solution: false},
+                        {text:"Stem",solution: false},
+                        {text:"Root",solution: false},
+                        {text:"Leaf",solution: true},
+                    ]
+                },
+                {
+                    question : " Which force keeps us grounded on Earth?",
+                    answers : [
+                        {text:"Gravity",solution: true},
+                        {text:"Electostacic",solution: false},
+                        {text:"Elastic",solution: false},
+                        {text:"Magnetic",solution: false},
+                    ]
+                },
+                {
+                    question : "where is Himalayas located?",
+                    answers : [
+                        {text:"India",solution: false},
+                        {text:"America",solution: false},
+                        {text:"Japan",solution: true},
+                        {text:"New York",solution: false},
+                    ]
+                },
+                {
+                    question : "What do you call an animal that only eats plants?",
+                    answers : [
+                        {text:"Carniore",solution: false},
+                        {text:"Herbivore",solution: true},
+                        {text:"Omniore",solution: false},
+                        {text:"Terestrial",solution: false},
+                    ]
+                },
+                {
+                    question : "What instrument is used to measure temperature?",
+                    answers : [
+                        {text:"Galvanometer",solution: false},
+                        {text:"Potentiometer",solution: false},
+                        {text:"Thermometer",solution: true},
+                        {text:"Ammeter",solution: false},
+                    ]
+                },
+                {
+                    question : " What is molten rock called before it erupts from a volcano?",
+                    answers : [
+                        {text:"Cream",solution: false},
+                        {text:"Core",solution: false},
+                        {text:"Lava",solution: false},
+                        {text:"Magma",solution: true},
+                    ]
+                },
+                {
+                    question : "where is Niagara falls located?",
+                    answers : [
+                        {text:"India",solution: false},
+                        {text:"America",solution: false},
+                        {text:"Japan",solution: true},
+                        {text:"New York",solution: false},
+                    ]
+                },
+                
+            ];
+        let question=document.querySelector("#question");
+        let answerbtns=document.querySelectorAll(".btn");
+        let nextbtn=document.querySelector("#next");
+        let homebtn=document.querySelector("#home");
+        if (localStorage.getItem('bestscore') === null) {
+            localStorage.setItem('bestscore', 0);
+        }
+        gohome.addEventListener("click",()=>{
+            window.open("quiz.html","_self");
+        });
+        let score=0;
+        let scoredis=document.querySelector("#scoredis");
+        let question_num=0;
+        nextbtn.style.display="none";
+        homebtn.style.display="none";
+        questioncall(question_num);
+        function questioncall(question_num){
+            answerbtns.forEach(btn => {
+                btn.style.backgroundColor = "";
+                btn.disabled= false;
+            });
+            nextbtn.style.display = "none";
+            let currentquestion = questions[question_num];
+            let num = question_num+1;
+            question.innerText= num + ". " + currentquestion.question;
+            for(let i=0;i<4;i++){
+                    answerbtns[i].innerHTML=currentquestion.answers[i].text;
+            }
+
+        }
+        nextbtn.addEventListener("click", () => {
+            for (let i = 0; i < 4; i++) {
+                answerbtns[i].innerHTML = "";
+            }
+            question_num++;
+            if (question_num < questions.length) {
+                questioncall(question_num);
+            } else {
+                question.innerText = `Quiz Completed! Your score: ${score}/${questions.length}`;
+                nextbtn.style.display = "none";
+                answerbtns.forEach(btn=>{
+                    btn.style.display = "none";
+                })
+                if(score>parseInt(localStorage.getItem('bestscore'))){
+                    bestscore.innerText = "Best Score:"+ score;
+                    localStorage.setItem('bestscore', score);
+                }
+                nextbtn.style.display = "none";
+                homebtn.style.display = "inline-block";
+                homebtn.addEventListener("click",()=>{
+                    window.open("quiz.html","_self");
+                })
+            }
+        });
+        answerbtns.forEach((btn, index) => {
+            btn.addEventListener("click", () => {
+                let correct = questions[question_num].answers[index].solution;
+                answerbtns.forEach((b, i) => {
+                    b.disabled = true;
+                    if (questions[question_num].answers[i].solution) {
+                        b.style.backgroundColor = "green";
+                    }
+                });
+
+                if (!correct) {
+                    btn.style.backgroundColor = "red";
+                } else {
+                    score++;
+                    scoredis.innerText="score: "+score;
+                }
+
+                nextbtn.style.display = "inline-block";
+            });
+        });
+    </script>
+</body>
+</html>

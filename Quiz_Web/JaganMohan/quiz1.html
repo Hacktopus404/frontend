@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>quiz</title>
+    <link rel="stylesheet" href="quiz2.css">
+</head>
+<body>
+    <div id="dh">
+        <a id="gohome">G0 HOME</a>
+        <P>Quiz on Animals</P>
+        <h3 id="scoredis">score: 0</h3>
+        <h3 id="bestscore">Best Score</h3>
+    </div>
+    <div class="outer">
+    <h2>question</h2>
+    <hr>
+        <div class="quizbox">
+            <h1 id="question">question display here.</h1>
+            <hr>
+            <div id="answerbtns">
+                <button class="btn"> option1</button>
+                <button class="btn">option2</button>
+                <button class="btn">option3</button>
+                <button class="btn">option4</button>
+            </div>
+            <div id="next">next</div>
+            <div id="home"> Go home</div>
+        </div>
+    </div>
+    <script>
+        const questions =[
+                {
+                    question : "What is the largest animal on Earth?",
+                    answers : [
+                        {text:"Shark",solution: false},
+                        {text:"Elephant",solution: false},
+                        {text:"The blue whale.",solution: true},
+                        {text:"Lion",solution: false},
+                    ]
+                },
+                {
+                    question : "Which mammal is capable of true flight?",
+                    answers : [
+                        {text:"Elephant",solution: false},
+                        {text:"Cow",solution: false},
+                        {text:"Zebra",solution: false},
+                        {text:"Bat",solution: true},
+                    ]
+                },
+                {
+                    question : "What animal has the highest blood pressure in the world?",
+                    answers : [
+                        {text:"Giraffe",solution: true},
+                        {text:"Chetha",solution: false},
+                        {text:"Tiger",solution: false},
+                        {text:"Deer",solution: false},
+                    ]
+                },
+                {
+                    question : "Which animal is known for carrying its young in a pouch?",
+                    answers : [
+                        {text:"Dog",solution: false},
+                        {text:"Kangaroo",solution: true},
+                        {text:"Rabbit",solution: false},
+                        {text:"Squrel",solution: false},
+                    ]
+                },
+                {
+                    question : "How many hearts does an octopus have?",
+                    answers : [
+                        {text:"Four",solution: false},
+                        {text:"One",solution: false},
+                        {text:"Three",solution: true},
+                        {text:"Two",solution: false},
+                    ]
+                },
+                {
+                    question : "What is the only animal that cannot jump?",
+                    answers : [
+                        {text:"Snake",solution: false},
+                        {text:"Turtoise",solution: false},
+                        {text:"Hippopotamus",solution: false},
+                        {text:"Elephant",solution: true},
+                    ]
+                },
+                {
+                    question : " What is a group of crows called?",
+                    answers : [
+                        {text:"Murder",solution: true},
+                        {text:"Club",solution: false},
+                        {text:"Croud",solution: false},
+                        {text:"Shol",solution: false},
+                    ]
+                },
+                {
+                    question : " Which bird is the only one that can fly backward?",
+                    answers : [
+                        {text:"Eagle",solution: false},
+                        {text:"Humming Bird",solution: true},
+                        {text:"Sparow",solution: false},
+                        {text:"Wood pecker",solution: false},
+                    ]
+                },
+                {
+                    question : "Which animal's fingerprints are so similar to humans?",
+                    answers : [
+                        {text:"Monkey",solution: false},
+                        {text:"Dog",solution: false},
+                        {text:"Koala",solution: true},
+                        {text:"Zebra",solution: false},
+                    ]
+                },
+                {
+                    question : "What is the slowest animal in the world?",
+                    answers : [
+                        {text:"Snail",solution: false},
+                        {text:"Turtle",solution: false},
+                        {text:"Moth",solution: false},
+                        {text:"Sloth",solution: true},
+                    ]
+                },
+                
+                
+                
+            ];
+        let question=document.querySelector("#question");
+        let answerbtns=document.querySelectorAll(".btn");
+        let nextbtn=document.querySelector("#next");
+        let homebtn=document.querySelector("#home");
+        if (localStorage.getItem('bestscore') === null) {
+            localStorage.setItem('bestscore', 0);
+        }
+        gohome.addEventListener("click",()=>{
+            window.open("quiz.html","_self");
+        });
+        let score=0;
+        let scoredis=document.querySelector("#scoredis");
+        let question_num=0;
+        nextbtn.style.display="none";
+        homebtn.style.display="none";
+        questioncall(question_num);
+        function questioncall(question_num){
+            answerbtns.forEach(btn => {
+                btn.style.backgroundColor = "";
+                btn.disabled= false;
+            });
+            nextbtn.style.display = "none";
+            let currentquestion = questions[question_num];
+            let num = question_num+1;
+            question.innerText= num + ". " + currentquestion.question;
+            for(let i=0;i<4;i++){
+                    answerbtns[i].innerHTML=currentquestion.answers[i].text;
+            }
+
+        }
+        nextbtn.addEventListener("click", () => {
+            for (let i = 0; i < 4; i++) {
+                answerbtns[i].innerHTML = "";
+            }
+            question_num++;
+            if (question_num < questions.length) {
+                questioncall(question_num);
+            } else {
+                question.innerText = `Quiz Completed! Your score: ${score}/${questions.length}`;
+                nextbtn.style.display = "none";
+                answerbtns.forEach(btn=>{
+                    btn.style.display = "none";
+                })
+                if(score>parseInt(localStorage.getItem('bestscore'))){
+                    bestscore.innerText = "Best Score:"+ score;
+                    localStorage.setItem('bestscore', score);
+                }
+                nextbtn.style.display = "none";
+                homebtn.style.display = "inline-block";
+                homebtn.addEventListener("click",()=>{
+                    window.open("quiz.html","_self");
+                })
+            }
+        });
+        answerbtns.forEach((btn, index) => {
+            btn.addEventListener("click", () => {
+                let correct = questions[question_num].answers[index].solution;
+                answerbtns.forEach((b, i) => {
+                    b.disabled = true;
+                    if (questions[question_num].answers[i].solution) {
+                        b.style.backgroundColor = "green";
+                    }
+                });
+
+                if (!correct) {
+                    btn.style.backgroundColor = "red";
+                } else {
+                    score++;
+                    scoredis.innerText="score: "+score;
+                }
+
+                nextbtn.style.display = "inline-block";
+            });
+        });
+    </script>
+</body>
+</html>
