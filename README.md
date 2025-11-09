@@ -41,7 +41,7 @@ It’s designed to demonstrate **modern web development**, with **responsive lay
 
 ## 💼 Project Showcase
 ### View the showcased project from here: https://hacktopus404.github.io/frontend/
-_(Click on the html files in red to view the webpage)_
+_(Click on the html file highlighted in red to view the live webpage)_
 <div align="center">
   <h2>✨ Featured Works — Modern • Animated • Full-Stack</h2>
 </div>
