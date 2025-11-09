@@ -1,6 +1,11 @@
 function back(){
     document.querySelector('.highscore-screen').style.display="none";
     document.querySelector('.start-screen').style.display="flex";
+    questionNo=1;
+    userChoices = [];
+    min = 0;
+    sec = 0;
+    document.querySelector('.timer').innerText = `Time Elapsed - 0:0`;
 }
 
 function clearScore(){
@@ -15,8 +20,8 @@ let rankHtml=`
     `;
 
 function rankList(){
-    highscores = JSON.parse(localStorage.getItem('highscore'));
-    if(localStorage.getItem('highscore')===null){
+    highscores = JSON.parse(localStorage.getItem('highscores'));
+    if(localStorage.getItem('highscores')===null){
         rankHtml=`
         <div class="grid-name" style="text-decoration: underline; margin-bottom: 30px">Name</div>
         <div class="grid-score" style="text-decoration: underline;">Score</div>
@@ -31,4 +36,13 @@ function rankList(){
         `;
     }
     document.querySelector('.rank-grid').innerHTML = rankHtml;
+}
+
+function loadRank(){
+    rankHtml=`
+        <div class="grid-name" style="text-decoration: underline; margin-bottom: 30px">Name</div>
+        <div class="grid-score" style="text-decoration: underline;">Score</div>
+        <div class="grid-time" style="text-decoration: underline;">Time</div>
+    `;
+    rankList();
 }
