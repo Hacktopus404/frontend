@@ -37,6 +37,25 @@ It’s designed to demonstrate **modern web development**, with **responsive lay
 
 ---
 
+## 💼 Project Showcase
+
+<div align="center">
+  <h2>✨ Featured Works — Modern • Animated • Full-Stack</h2>
+</div>
+
+<div align="center" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px;">
+
+  <!-- Project Card 1 -->
+  <div style="background: linear-gradient(145deg, #141414, #1f1f1f); border-radius: 20px; box-shadow: 0 0 20px rgba(0,0,0,0.5); padding: 20px; width: 340px; transition: 0.3s; border: 1px solid #333;">
+    <h3 align="center">🧠 Quiz Website</h3>
+    <p align="center"><b>JavaScript • CSS • HTML</b></p>
+      <a href="https://github.com/Hacktopus404/frontend/tree/main/Quiz_Web" style="color:#00FFFF; text-decoration:none;">📂 Repository</a>
+    </p>
+  </div>
+  </div>
+
+---
+
 ## ✨ Features
 
 ### 🎨 CSS (Styling & Animations)
