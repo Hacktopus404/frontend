@@ -44,14 +44,18 @@ function nextClick(){
         if(userChoices[userChoices.length-1]===0){
             document.querySelector('.insta-ans').style.visibility = 'visible';
             document.querySelector('.insta-ans').innerText = 'Unattempted!';
+            document.querySelector(`label:nth-of-type(${questions[questionNo-1].ans}) .choice-opt`).style.color = '#008b00';
         }
         else if(userChoices[userChoices.length-1]===questions[questionNo-1].ans){
             document.querySelector('.insta-ans').style.visibility = 'visible';
             document.querySelector('.insta-ans').innerText = '✔️Correct!';
+            document.querySelector(`label:nth-of-type(${questions[questionNo-1].ans}) .choice-opt`).style.color = '#008b00';
         }
         else{
             document.querySelector('.insta-ans').style.visibility = 'visible';
             document.querySelector('.insta-ans').innerText = '❌Incorrect!';
+            document.querySelector(`label:nth-of-type(${questions[questionNo-1].ans}) .choice-opt`).style.color = '#008b00';
+            document.querySelector(`label:nth-of-type(${userChoices[userChoices.length-1]}) .choice-opt`).style.color = '#e60000';
         }
         document.querySelector('.nxt-btn').innerText = 'Next';
     }

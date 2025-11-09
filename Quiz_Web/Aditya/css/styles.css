@@ -149,6 +149,9 @@ body{
 .choices{
     margin-left: 10px;
 }
+label:nth-of-type(2) .choice-opt {
+    
+}
 .choice-opt{
     margin-left: 15px;
     cursor: pointer;
