@@ -1,0 +1,33 @@
+body{
+    text-align: center;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    background-image: url("https://cdn.vectorstock.com/i/500p/64/20/neon-quiz-screen-with-question-and-exclamation-vector-56866420.jpg");
+    background-size: cover;
+}
+.container{
+    width: 270px;
+    height: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: rgb(247, 214, 2);
+    font-size: large;
+    background-color: aliceblue;
+    margin: 40px;
+    margin-top: 0px;
+    border: 5px solid rgb(14, 71, 168);
+    background-image: url("https://img.pikbest.com/back_our/20210612/bg/d4c518fa3d0ea.jpg!w700wp");
+    background-size: cover;
+    background-repeat: no-repeat;
+    border-radius: 10px;
+}
+p{
+    font-size: 60px;
+    margin-top: 220px;
+    margin-left: 500px;
+    margin-right: 500px;
+    margin-bottom: 30px;
+    color: rgb(247, 214, 2);
+}

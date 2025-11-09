@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>quiz</title>
+    <link rel="stylesheet" href="quiz2.css">
+</head>
+<body>
+    <div id="dh">
+        <a id="gohome">G0 HOME</a>
+        <P>Quiz on Science</P>
+        <h3 id="scoredis">score: 0</h3>
+        <h3 id="bestscore">Best Score</h3>
+    </div>
+    <div class="outer">
+    <h2>question</h2>
+    <hr>
+        <div class="quizbox">
+            <h1 id="question">question display here.</h1>
+            <hr>
+            <div id="answerbtns">
+                <button class="btn"> option1</button>
+                <button class="btn">option2</button>
+                <button class="btn">option3</button>
+                <button class="btn">option4</button>
+            </div>
+            <div id="next">next</div>
+            <div id="home"> Go home</div>
+        </div>
+    </div>
+    <script>
+        const questions =[
+            {
+                question: "What is the chemical symbol for water?",
+                answers: [
+                {text: "O2", solution: false},
+                {text: "CO2", solution: false},
+                {text: "H2", solution: false},
+                {text: "H2O", solution: true}
+                ]
+            },
+            {
+                question: "Which planet is known as the Red Planet?",
+                answers: [
+                {text: "Venus", solution: false},
+                {text: "Jupiter", solution: false},
+                {text: "Saturn", solution: false},
+                {text: "Mars", solution: true}
+                ]
+            },
+            {
+                question: "What gas do plants absorb from the atmosphere for photosynthesis?",
+                answers: [
+                {text: "Oxygen", solution: false},
+                {text: "Nitrogen", solution: false},
+                {text: "Hydrogen", solution: false},
+                {text: "Carbon dioxide", solution: true}
+                ]
+            },
+            {
+                question: "What part of the cell contains genetic material?",
+                answers: [
+                {text: "Cytoplasm", solution: false},
+                {text: "Mitochondria", solution: false},
+                {text: "Ribosome", solution: false},
+                {text: "Nucleus", solution: true}
+                ]
+            },
+            {
+                question: "Which organ in the human body is responsible for pumping blood?",
+                answers: [
+                {text: "Lungs", solution: false},
+                {text: "Brain", solution: false},
+                {text: "Liver", solution: false},
+                {text: "Heart", solution: true}
+                ]
+            },
+            {
+                question: "What is the boiling point of water at sea level?",
+                answers: [
+                {text: "50°C", solution: false},
+                {text: "90°C", solution: false},
+                {text: "150°C", solution: false},
+                {text: "100°C", solution: true}
+                ]
+            },
+            {
+                question: "Which force keeps planets in orbit around the sun?",
+                answers: [
+                {text: "Magnetism", solution: false},
+                {text: "Friction", solution: false},
+                {text: "Electricity", solution: false},
+                {text: "Gravity", solution: true}
+                ]
+            },
+            {
+                question: "What is the basic unit of life?",
+                answers: [
+                {text: "Atom", solution: false},
+                {text: "Molecule", solution: false},
+                {text: "Tissue", solution: false},
+                {text: "Cell", solution: true}
+                ]
+            },
+            {
+                question: "Which vitamin is produced when the skin is exposed to sunlight?",
+                answers: [
+                {text: "Vitamin A", solution: false},
+                {text: "Vitamin B", solution: false},
+                {text: "Vitamin C", solution: false},
+                {text: "Vitamin D", solution: true}
+                ]
+            },
+            {
+                question: "What is the process by which plants make their own food?",
+                answers: [
+                {text: "Respiration", solution: false},
+                {text: "Fermentation", solution: false},
+                {text: "Digestion", solution: false},
+                {text: "Photosynthesis", solution: true}
+                ]
+            }
+        ];
+        let question=document.querySelector("#question");
+        let answerbtns=document.querySelectorAll(".btn");
+        let nextbtn=document.querySelector("#next");
+        let homebtn=document.querySelector("#home");
+        if (localStorage.getItem('bestscore') === null) {
+            localStorage.setItem('bestscore', 0);
+        }
+        gohome.addEventListener("click",()=>{
+            window.open("quiz.html","_self");
+        });
+        let score=0;
+        let scoredis=document.querySelector("#scoredis");
+        let question_num=0;
+        nextbtn.style.display="none";
+        homebtn.style.display="none";
+        questioncall(question_num);
+        function questioncall(question_num){
+            answerbtns.forEach(btn => {
+                btn.style.backgroundColor = "";
+                btn.disabled= false;
+            });
+            nextbtn.style.display = "none";
+            let currentquestion = questions[question_num];
+            let num = question_num+1;
+            question.innerText= num + ". " + currentquestion.question;
+            for(let i=0;i<4;i++){
+                    answerbtns[i].innerHTML=currentquestion.answers[i].text;
+            }
+
+        }
+        nextbtn.addEventListener("click", () => {
+            for (let i = 0; i < 4; i++) {
+                answerbtns[i].innerHTML = "";
+            }
+            question_num++;
+            if (question_num < questions.length) {
+                questioncall(question_num);
+            } else {
+                question.innerText = `Quiz Completed! Your score: ${score}/${questions.length}`;
+                nextbtn.style.display = "none";
+                answerbtns.forEach(btn=>{
+                    btn.style.display = "none";
+                })
+                if(score>parseInt(localStorage.getItem('bestscore'))){
+                    bestscore.innerText = "Best Score:"+ score;
+                    localStorage.setItem('bestscore', score);
+                }
+                nextbtn.style.display = "none";
+                homebtn.style.display = "inline-block";
+                homebtn.addEventListener("click",()=>{
+                    window.open("quiz.html","_self");
+                })
+            }
+        });
+        answerbtns.forEach((btn, index) => {
+            btn.addEventListener("click", () => {
+                let correct = questions[question_num].answers[index].solution;
+                answerbtns.forEach((b, i) => {
+                    b.disabled = true;
+                    if (questions[question_num].answers[i].solution) {
+                        b.style.backgroundColor = "green";
+                    }
+                });
+
+                if (!correct) {
+                    btn.style.backgroundColor = "red";
+                } else {
+                    score++;
+                    scoredis.innerText="score: "+score;
+                }
+
+                nextbtn.style.display = "inline-block";
+            });
+        });
+    </script>
+</body>
+</html>

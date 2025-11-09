@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>quiz</title>
+    <link rel="stylesheet" href="quiz2.css">
+</head>
+<body>
+    <div id="dh">
+        <a id="gohome">G0 HOME</a>
+        <P>Quiz on Cooding</P>
+        <h3 id="scoredis">score: 0</h3>
+        <h3 id="bestscore">Best Score</h3>
+    </div>
+    <div class="outer">
+    <h2>question</h2>
+    <hr>
+        <div class="quizbox">
+            <h1 id="question">question display here.</h1>
+            <hr>
+            <div id="answerbtns">
+                <button class="btn"> option1</button>
+                <button class="btn">option2</button>
+                <button class="btn">option3</button>
+                <button class="btn">option4</button>
+            </div>
+            <div id="next">next</div>
+            <div id="home"> Go home</div>
+        </div>
+    </div>
+    <script>
+        const questions =[
+                {
+                    question: "Which HTML tag is used to define a paragraph?",
+                    answers: [
+                    {text: "div", solution: false},
+                    {text: "span", solution: false},
+                    {text: "section", solution: false},
+                    {text: "p", solution: true}
+                    ]
+                },
+                {
+                    question: "Which CSS property is used to change the text color?",
+                    answers: [
+                    {text: "font-style", solution: false},
+                    {text: "text-align", solution: false},
+                    {text: "background-color", solution: false},
+                    {text: "color", solution: true}
+                    ]
+                },
+                {
+                    question: "What does HTML stand for?",
+                    answers: [
+                    {text: "Hyperlinks and Text Markup Language", solution: false},
+                    {text: "Home Tool Markup Language", solution: false},
+                    {text: "Hyper Tool Markup Language", solution: false},
+                    {text: "HyperText Markup Language", solution: true}
+                    ]
+                },
+                {
+                    question: "Which CSS property controls the size of text?",
+                    answers: [
+                    {text: "font-weight", solution: false},
+                    {text: "font-size", solution: true},
+                    {text: "text-transform", solution: false},
+                    {text: "line-height", solution: false}
+                    ]
+                },
+                {
+                    question: "Which HTML tag is used to insert an image?",
+                    answers: [
+                    {text: "<img>", solution: true},
+                    {text: "<image>", solution: false},
+                    {text: "<src>", solution: false},
+                    {text: "<pic>", solution: false}
+                    ]
+                },
+                {
+                    question: "Which CSS property is used to set the background color of an element?",
+                    answers: [
+                    {text: "color", solution: false},
+                    {text: "border-color", solution: false},
+                    {text: "text-color", solution: false},
+                    {text: "background-color", solution: true}
+                    ]
+                },
+                {
+                    question: "Which HTML tag is used to create a hyperlink?",
+                    answers: [
+                    {text: "<link>", solution: true},
+                    {text: "<href>", solution: false},
+                    {text: "<a>", solution: false},
+                    {text: "<url>", solution: false}
+                    ]
+                },
+                {
+                    question: "Which CSS property is used to make text bold?",
+                    answers: [
+                    {text: "font-style", solution: false},
+                    {text: "text-decoration", solution: true},
+                    {text: "font-weight", solution: false},
+                    {text: "text-align", solution: false}
+                    ]
+                },
+                {
+                    question: "Which HTML tag is used to define a table row?",
+                    answers: [
+                    {text: "<td>", solution: false},
+                    {text: "<th>", solution: false},
+                    {text: "<tr>", solution: true},
+                    {text: "<table>", solution: false}
+                    ]
+                },
+                {
+                    question: "Which CSS property is used to add space inside an element?",
+                    answers: [
+                    {text: "margin", solution: false},
+                    {text: "border", solution: false},
+                    {text: "spacing", solution: false},
+                    {text: "padding", solution: true}
+                    ]
+                }
+
+            ];
+        let question=document.querySelector("#question");
+        let answerbtns=document.querySelectorAll(".btn");
+        let nextbtn=document.querySelector("#next");
+        let homebtn=document.querySelector("#home");
+        if (localStorage.getItem('bestscore') === null) {
+            localStorage.setItem('bestscore', 0);
+        }
+        gohome.addEventListener("click",()=>{
+            window.open("quiz.html","_self");
+        });
+        let score=0;
+        let scoredis=document.querySelector("#scoredis");
+        let question_num=0;
+        nextbtn.style.display="none";
+        homebtn.style.display="none";
+        questioncall(question_num);
+        function questioncall(question_num){
+            answerbtns.forEach(btn => {
+                btn.style.backgroundColor = "";
+                btn.disabled= false;
+            });
+            nextbtn.style.display = "none";
+            let currentquestion = questions[question_num];
+            let num = question_num+1;
+            question.innerText= num + ". " + currentquestion.question;
+            for(let i=0;i<4;i++){
+                    answerbtns[i].innerHTML=currentquestion.answers[i].text;
+            }
+
+        }
+        nextbtn.addEventListener("click", () => {
+            for (let i = 0; i < 4; i++) {
+                answerbtns[i].innerHTML = "";
+            }
+            question_num++;
+            if (question_num < questions.length) {
+                questioncall(question_num);
+            } else {
+                question.innerText = `Quiz Completed! Your score: ${score}/${questions.length}`;
+                nextbtn.style.display = "none";
+                answerbtns.forEach(btn=>{
+                    btn.style.display = "none";
+                })
+                if(score>parseInt(localStorage.getItem('bestscore'))){
+                    bestscore.innerText = "Best Score:"+ score;
+                    localStorage.setItem('bestscore', score);
+                }
+                nextbtn.style.display = "none";
+                homebtn.style.display = "inline-block";
+                homebtn.addEventListener("click",()=>{
+                    window.open("quiz.html","_self");
+                })
+            }
+        });
+        answerbtns.forEach((btn, index) => {
+            btn.addEventListener("click", () => {
+                let correct = questions[question_num].answers[index].solution;
+                answerbtns.forEach((b, i) => {
+                    b.disabled = true;
+                    if (questions[question_num].answers[i].solution) {
+                        b.style.backgroundColor = "green";
+                    }
+                });
+
+                if (!correct) {
+                    btn.style.backgroundColor = "red";
+                } else {
+                    score++;
+                    scoredis.innerText="score: "+score;
+                }
+
+                nextbtn.style.display = "inline-block";
+            });
+        });
+    </script>
+</body>
+</html>
