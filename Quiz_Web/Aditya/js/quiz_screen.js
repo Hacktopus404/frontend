@@ -15,11 +15,6 @@ function nextQues(){
         return;
     }
 
-    //Changing next to submit btn logic
-    if(questionNo===questions.length-1){
-        document.querySelector('.nxt-btn').innerText = 'Submit';
-    }
-
     // //Logic to bring Prev Button
     // if(questionNo!==0)
     //     document.querySelector('.prev-btn').style.display = "inline";

@@ -12,7 +12,7 @@
                 <h1 id='start-heading'>Quiz Master</h1>
                 <button class="start-btn" onclick="startQuiz();">Start Quiz</button>
                 <br>
-                <button class="start-btn" onclick="viewHighScore(); rankList();">🏆 View High Scores</button>
+                <button class="start-btn" onclick="viewHighScore(); loadRank();">🏆 View High Scores</button>
         </div>
     </section>
 
@@ -20,7 +20,7 @@
         <div class="content-box-quiz-screen">
             <div class="header">
                 <div class="question-no">Question No. </div>
-                <div class="timer">Time Elapsed - </div>
+                <div class="timer">Time Elapsed - 0:0</div>
             </div>
             <div class="question-canvas">
                 <div class="question"></div>
@@ -43,7 +43,7 @@
                     Enter your name: <input type="text" style="font-size: 2.6rem;" class="nameInput">
                 </div>
                 <div class="nav-result">
-                    <button onclick="saveScore(); rankList();">Save Score</button>
+                    <button onclick="saveScore(); loadRank();">Save Score</button>
                     <button style="margin-left: auto;" onclick="restart()">Restart Quiz</button>
                 </div>
             </div>
@@ -61,7 +61,7 @@
             <div class="rank-grid"></div>
             <div class="bottom-option">
                 <button onclick="clearScore(); rankList();">Clear Scores</button>
-                <button style="margin-left: auto;" onclick="restart()">Back</button>
+                <button style="margin-left: auto;" onclick="back();">Back</button>
             </div>
         </div>
     </section>
