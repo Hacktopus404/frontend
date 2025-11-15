@@ -40,6 +40,7 @@ It’s designed to demonstrate **modern web development**, with **responsive lay
 ---
 
 ## 💼 Project Showcase
+
 ### View the showcased project from here: https://hacktopus404.github.io/frontend/
 _(Click on the html file highlighted in red to view the live webpage)_
 <div align="center">
@@ -110,14 +111,7 @@ Make sure you have installed:
 - npm or yarn package manager
 
 ### 🧭 Steps to Run Locally
-
-
-<h3 align="center"><i>Maintainer : </i><a href="https://github.com/AdityaDas5501">AdityaDas5501</a></h3>
-<h4 align="center"><i>Members : </i><a href="https://github.com/kishalaya15">kishalaya15</a> , <a href="https://github.com/Jit338">Jit338</a></h4>
-
 ```bash
-
-
 # Clone this repository
 git clone https://github.com/yourusername/project-name.git
 
@@ -132,3 +126,9 @@ npm run server
 
 # In another terminal, start the React app
 npm start
+```
+
+---
+
+<h3 align="center"><i>Maintainer : </i><a href="https://github.com/AdityaDas5501">AdityaDas5501</a></h3>
+<h4 align="center"><i>Members : </i><a href="https://github.com/kishalaya15">kishalaya15</a> , <a href="https://github.com/Jit338">Jit338</a></h4>
