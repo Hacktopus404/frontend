@@ -1,8 +1,11 @@
 name: Cache Repo Folder Tree
 
+permissions:        # <-- REQUIRED
+  contents: write   # allow push
+
 on:
   push:
-    branches: [ "main" ]   # change if using a different branch
+    branches: [ "main" ]
   workflow_dispatch:
 
 jobs:
@@ -10,8 +13,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repo
+    - name: Checkout repo (with write access!)
       uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Get repository tree via API
       run: |
