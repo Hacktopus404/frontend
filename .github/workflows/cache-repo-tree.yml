@@ -22,6 +22,7 @@ jobs:
 
     - name: Process & clean cache (only paths, names, types)
       run: |
+        mkdir -p public
         cat repo-cache-temp.json | jq '
           .tree
           | map({ path: .path, type: (if .type == "blob" then "file" else "dir" end) })
