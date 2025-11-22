@@ -4,87 +4,51 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Hacktopus404/frontend — Folder Explorer</title>
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,
-<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='gold'>
-  <path d='M10 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8
-  c0-1.1-.9-2-2-2h-8l-2-2z'/>
-</svg>">
-<style>
-  *{
-    -webkit-tap-highlight-color: transparent;
-  }
-  body {
-    font-family: monospace;
-    background: #0d1117;
-    color: #c9d1d9;
-    padding: 20px;
-    font-size: 1rem;
-  }
-  h2 {
-    color: #58a6ff;
-  }
-  ul {
-    display: inline-block;
-    list-style-type: none;
-    padding-left: 16px;
-    margin: 0;
-  }
-  li {
-    line-height: 1.7;
-    position: relative;
-  }
-  li.folder::before {
-    content: "▶";
-    display: inline-block;
-    margin-left: 5.5px;
-    margin-right: 0.3em;
-    transition: transform 0.2s ease;
-    width: 16px;
-  }
-  li.folder.open::before {
-    transform: rotate(90deg);
-  }
-  li.file::before {
-    content: "📄 ";
-  }
-  li.file{
-    margin-left: 3.5px;
-  }
-  li.folder {
-    cursor: pointer;
-    user-select: none;
-  }
-  li.folder:hover {
-    color: #79c0ff;
-  }
-  li.folder > ul {
-    margin-left: 14px;
-    border-left: 1px dashed #30363d;
-    padding-left: 8px;
-    display: none;
-  }
-  li.folder.open > ul {
-    display: block;
-    animation: fadeIn 0.15s ease-in;
-  }
-  @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-  }
 
-  /* Red color for HTML files */
-  li.file.html-file {
-    color: #ff5555;
+<!-- Correctly encoded SVG favicon -->
+<link rel="icon" type="image/svg+xml"
+href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='gold'%3E%3Cpath d='M10 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z'/%3E%3C/svg%3E">
+
+<style>
+  * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; }
+  body {
+    font-family: monospace; background: #0d1117; color: #c9d1d9;
+    padding: 20px; font-size: 1rem;
   }
-  li.file.html-file:hover {
-    color: #ffd700;
+  h2 { color: #58a6ff; margin-bottom: 8px; }
+
+  ul { display: inline-block; list-style-type: none; padding-left: 16px; margin: 0; }
+  li { line-height: 1.7; position: relative; }
+
+  li.folder::before {
+    content: "▶"; display: inline-block; margin-left: 5.5px;
+    margin-right: 0.3em; transition: transform 0.18s ease; width: 16px;
   }
-  li.file.html-file:active {
-    color: #ffd700;
+  li.folder.open::before { transform: rotate(90deg); }
+
+  li.file::before { content: "📄 "; }
+  li.file { margin-left: 3.5px; cursor: pointer; }
+  li.file:hover { color: #79c0ff; }
+
+  li.folder { cursor: pointer; user-select: none; }
+  li.folder:hover { color: #79c0ff; }
+
+  li.folder > ul {
+    margin-left: 14px; border-left: 1px dashed #30363d;
+    padding-left: 8px; display: none;
   }
+  li.folder.open > ul { display: block; animation: fadeIn 0.15s ease-in; }
+
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+  li.file.html-file { color: #ff5555; }
+  li.file.html-file:hover { color: #ffd700; }
+
+  .loading { opacity: 0.6; color: #8b949e; }
 </style>
 </head>
 <body>
+
 <h2>📂 Hacktopus404/frontend — Folder Explorer</h2>
 <ul id="repo-tree"></ul>
 
@@ -95,18 +59,34 @@ const baseUrl = `https://api.github.com/repos/${owner}/${repo}/contents`;
 const pagesBase = `https://${owner}.github.io/${repo}`;
 const ignoredFiles = ["LICENSE", "README.md"];
 
-// Fetch contents of a folder
+// Fetch contents of a folder (with User-Agent header fix)
 async function fetchFolder(path = "") {
   const url = `${baseUrl}/${path}`;
-  const res = await fetch(url);
+  const res = await fetch(url, {
+    headers: {
+      "User-Agent": "FolderExplorer",
+      "Accept": "application/vnd.github+json"
+    }
+  });
+
   const data = await res.json();
   if (!Array.isArray(data)) return [];
-  return data.filter(item => !ignoredFiles.includes(item.name));
+
+  return data
+    .filter(item => {
+      if (ignoredFiles.includes(item.name)) return false;
+      if (path === "" && item.name.toLowerCase() === "index.html") return false;
+      return true;
+    })
+    .sort((a, b) =>
+      (a.type === b.type) ? a.name.localeCompare(b.name) : (a.type < b.type ? 1 : -1)
+    );
 }
 
-// Render a folder (lazy loading)
+// Render folders/files
 async function renderFolder(path = "", parentUl) {
   const items = await fetchFolder(path);
+  parentUl.innerHTML = ""; // clear "Loading..."
 
   for (const item of items) {
     const li = document.createElement("li");
@@ -119,26 +99,28 @@ async function renderFolder(path = "", parentUl) {
       li.appendChild(nestedUl);
       li.classList.add("folder", "collapsed");
 
-      // Single click to toggle open/close
       li.addEventListener("click", async (e) => {
         e.stopPropagation();
         const isOpen = li.classList.toggle("open");
         if (isOpen && !nestedUl.hasChildNodes()) {
+          nestedUl.innerHTML = "<li class='loading'>Loading...</li>";
           await renderFolder(item.path, nestedUl);
         }
       });
-    } else {
-      // Click file to open on GitHub Pages
-      li.classList.add("file");
 
-      // 🔴 If the file is .html, color it red
-      if (item.name.toLowerCase().endsWith(".html")) {
-        li.classList.add("html-file");
-      }
+    } else {
+      li.classList.add("file");
+      if (item.name.toLowerCase().endsWith(".html")) li.classList.add("html-file");
 
       li.addEventListener("click", (e) => {
         e.stopPropagation();
-        const fileUrl = `${pagesBase}/${item.path}`;
+
+        // 🔥 Fix: Encode only the file name, not slashes
+        const parts = item.path.split("/");
+        const fileName = parts.pop();
+        const folderPath = parts.join("/");
+
+        const fileUrl = `${pagesBase}/${folderPath}/${encodeURIComponent(fileName)}`;
         window.open(fileUrl, "_blank");
       });
     }
@@ -148,13 +130,6 @@ async function renderFolder(path = "", parentUl) {
 // Load root
 renderFolder("", document.getElementById("repo-tree"));
 </script>
+
 </body>
 </html>
-
-
-
-
-
-
-
-
