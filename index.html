@@ -60,7 +60,8 @@
       }
 
       li.file::before {
-        content: "📄 ";
+        content: "📄";
+        margin-right: 0.3em;
       }
       li.file {
         margin-left: 3.5px;
@@ -70,10 +71,6 @@
         color: #79c0ff;
       }
 
-      li.folder {
-        cursor: pointer;
-        user-select: none;
-      }
       li.folder:hover {
         color: #79c0ff;
       }
@@ -105,11 +102,6 @@
       li.file.html-file:hover {
         color: #ffd700;
       }
-
-      .loading {
-        opacity: 0.6;
-        color: #617d9d;
-      }
     </style>
   </head>
   <body>
@@ -119,96 +111,95 @@
     <script>
       const owner = "Hacktopus404";
       const repo = "frontend";
-      const baseUrl = `https://api.github.com/repos/${owner}/${repo}/contents`;
+      const branch = "main";
+      const treeUrl = `https://api.github.com/repos/${owner}/${repo}/git/trees/${branch}?recursive=1`;
       const pagesBase = `https://${owner}.github.io/${repo}`;
       const ignoredFiles = ["LICENSE", "README.md"];
 
-      // Fetch contents of a folder (with User-Agent header fix)
-      async function fetchFolder(path = "") {
-        const url = `${baseUrl}/${path}`;
-        const res = await fetch(url, {
+      // Fetch full repo structure once
+      async function fetchRepoTree() {
+        const res = await fetch(treeUrl, {
           headers: {
             "User-Agent": "FolderExplorer",
             Accept: "application/vnd.github+json",
           },
         });
-
         const data = await res.json();
-        if (!Array.isArray(data)) return [];
-
-        return data
-          .filter((item) => {
-            if (ignoredFiles.includes(item.name)) return false;
-            if (path === "" && item.name.toLowerCase() === "index.html")
-              return false;
-            return true;
-          })
-          .sort((a, b) =>
-            a.type === b.type
-              ? a.name.localeCompare(b.name)
-              : a.type < b.type
-              ? 1
-              : -1
-          );
+        return data.tree;
       }
 
-      // Render folders/files
-      async function renderFolder(path = "", parentUl) {
-        const items = await fetchFolder(path);
-        parentUl.innerHTML = ""; // clear "Loading..."
+      // Build nested tree structure from paths (ignoring root index.html)
+      function buildNestedTree(list) {
+        const root = {};
 
-        for (const item of items) {
+        list.forEach((item) => {
+          // Ignore LICENSE + README
+          if (ignoredFiles.includes(item.path)) return;
+
+          // Ignore only root index.html
+          if (item.path.toLowerCase() === "index.html") return;
+
+          const parts = item.path.split("/");
+          let current = root;
+
+          parts.forEach((part, i) => {
+            if (!current[part])
+              current[part] = { __filesize: item.size ?? null };
+
+            if (i === parts.length - 1) {
+              current[part].__type = item.type; // blob (file) or tree (folder)
+            }
+            current = current[part];
+          });
+        });
+
+        return root;
+      }
+
+      // Render DOM recursively
+      function renderTree(obj, parentUl, path = "") {
+        Object.entries(obj).forEach(([name, value]) => {
+          if (name.startsWith("__")) return;
+
           const li = document.createElement("li");
-          li.textContent = item.name;
-          li.classList.add(item.type);
-          parentUl.appendChild(li);
+          const newPath = path ? `${path}/${name}` : name;
 
-          if (item.type === "dir") {
-            const nestedUl = document.createElement("ul");
-            li.appendChild(nestedUl);
-            li.classList.add("folder", "collapsed");
-
-            li.addEventListener("click", async (e) => {
-              e.stopPropagation();
-              const isOpen = li.classList.toggle("open");
-
-              // first time open → load + ensure animation plays
-              if (isOpen && !nestedUl.dataset.loaded) {
-                nestedUl.innerHTML = "<li class='loading'>Loading...</li>";
-                await renderFolder(item.path, nestedUl);
-                nestedUl.dataset.loaded = "true";
-
-                // re-trigger animation now that real items exist
-                li.classList.remove("open");
-                void li.offsetWidth; // force reflow
-                li.classList.add("open");
-              }
-            });
-          } else {
+          if (value.__type === "blob") {
             li.classList.add("file");
-            if (item.name.toLowerCase().endsWith(".html"))
+            li.textContent = name;
+            if (name.toLowerCase().endsWith(".html"))
               li.classList.add("html-file");
 
             li.addEventListener("click", (e) => {
               e.stopPropagation();
-
-              // Encode only the file name, not slashes
-              const parts = item.path.split("/");
-              const fileName = parts.pop();
-              const folderPath = parts.join("/");
-
-              const fileUrl = `${pagesBase}/${folderPath}/${encodeURIComponent(
-                fileName
-              )}`;
+              const fileUrl = `${pagesBase}/${newPath}`;
               window.open(fileUrl, "_blank");
             });
+          } else {
+            li.classList.add("folder");
+            li.textContent = name;
+
+            const nestedUl = document.createElement("ul");
+            li.appendChild(nestedUl);
+
+            li.addEventListener("click", (e) => {
+              e.stopPropagation();
+              li.classList.toggle("open");
+            });
+
+            renderTree(value, nestedUl, newPath);
           }
-        }
+
+          parentUl.appendChild(li);
+        });
       }
 
-      // Load root
-      renderFolder("", document.getElementById("repo-tree"));
+      // Load everything
+      (async () => {
+        const tree = await fetchRepoTree();
+        const nested = buildNestedTree(tree);
+        renderTree(nested, document.getElementById("repo-tree"));
+      })();
     </script>
   </body>
 </html>
-
