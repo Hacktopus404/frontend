@@ -51,6 +51,9 @@
       li.folder.open::before {
         transform: rotate(90deg);
       }
+      li.folder.open {
+        color: #79c0ff;
+      }
 
       li.file::before {
         content: "📄 ";
@@ -78,6 +81,7 @@
         display: none;
       }
       li.folder.open > ul {
+        color: #c9d1d9;
         display: block;
         animation: fadeIn 0.15s ease-in;
       }
