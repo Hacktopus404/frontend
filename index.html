@@ -9,14 +9,15 @@
     <link
       rel="icon"
       type="image/svg+xml"
-      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='gold'%3E%3Cpath d='M10 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z'/%3E%3C/svg%3E"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2358a6ff'%3E%3Cpath d='M10 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z'/%3E%3C/svg%3E"
     />
 
     <style>
       * {
         -webkit-tap-highlight-color: transparent;
         box-sizing: border-box;
-        cursor: url('https://sweezy-cursors.com/wp-content/uploads/cursor/minecraft-enchanted-diamond-sword-animated/minecraft-enchanted-diamond-sword-animated-pointer-32x32.png'), auto !important;
+        cursor: url("https://sweezy-cursors.com/wp-content/uploads/cursor/minecraft-enchanted-diamond-sword-animated/minecraft-enchanted-diamond-sword-animated-pointer-32x32.png"),
+          auto !important;
       }
       body {
         font-family: monospace;
@@ -39,7 +40,8 @@
       li {
         line-height: 1.7;
         position: relative;
-        cursor: url('https://sweezy-cursors.com/wp-content/uploads/cursor/minecraft-enchanted-golden-sword-animated/minecraft-enchanted-golden-sword-animated-pointer-32x32.png'), pointer !important;
+        cursor: url("https://sweezy-cursors.com/wp-content/uploads/cursor/minecraft-enchanted-golden-sword-animated/minecraft-enchanted-golden-sword-animated-pointer-32x32.png"),
+          pointer !important;
       }
 
       li.folder::before {
@@ -169,9 +171,17 @@
             li.addEventListener("click", async (e) => {
               e.stopPropagation();
               const isOpen = li.classList.toggle("open");
-              if (isOpen && !nestedUl.hasChildNodes()) {
+
+              // first time open → load + ensure animation plays
+              if (isOpen && !nestedUl.dataset.loaded) {
                 nestedUl.innerHTML = "<li class='loading'>Loading...</li>";
                 await renderFolder(item.path, nestedUl);
+                nestedUl.dataset.loaded = "true";
+
+                // re-trigger animation now that real items exist
+                li.classList.remove("open");
+                void li.offsetWidth; // force reflow
+                li.classList.add("open");
               }
             });
           } else {
@@ -201,4 +211,3 @@
     </script>
   </body>
 </html>
-
