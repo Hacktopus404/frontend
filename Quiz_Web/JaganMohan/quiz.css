@@ -5,6 +5,9 @@ body{
     justify-content: center;
     background-image: url("https://cdn.vectorstock.com/i/500p/64/20/neon-quiz-screen-with-question-and-exclamation-vector-56866420.jpg");
     background-size: cover;
+    background-position: center;
+    margin: 0px;
+    padding: 0px;
 }
 .container{
     width: 270px;
@@ -22,6 +25,9 @@ body{
     background-size: cover;
     background-repeat: no-repeat;
     border-radius: 10px;
+    box-shadow: 0px 6px 15px rgba(0,0,0,0.4);
+    cursor: pointer;
+    transition: 0.3s ease;
 }
 p{
     font-size: 60px;
@@ -30,4 +36,12 @@ p{
     margin-right: 500px;
     margin-bottom: 30px;
     color: rgb(247, 214, 2);
+}
+.container:hover {
+    transform: translateY(-10px) scale(1.08);    
+    box-shadow: 0px 20px 35px 0px rgba(223, 228, 77, 0.773);    
+    border-color: gold;                           
+    filter: brightness(1.2); 
+    font-weight: bolder;
+    font-style: italic;
 }
