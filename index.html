@@ -36,7 +36,7 @@
   li.folder::before {
     content: "▶";
     display: inline-block;
-    margin-left: 1px;
+    margin-left: 5.5px;
     margin-right: 0.3em;
     transition: transform 0.2s ease;
     width: 16px;
@@ -46,6 +46,9 @@
   }
   li.file::before {
     content: "📄 ";
+  }
+  li.file{
+    margin-left: 3.5px;
   }
   li.folder {
     cursor: pointer;
@@ -144,6 +147,7 @@ renderFolder("", document.getElementById("repo-tree"));
 </script>
 </body>
 </html>
+
 
 
 
