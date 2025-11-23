@@ -103,11 +103,95 @@
       li.file.html-file:hover {
         color: #ffd700;
       }
+
+      /* ⭐ COOL FOLDER LOADER */
+      #loading {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 53px;
+        color: #58a6ff;
+        animation: fadeIn 0.4s ease-in;
+        font-size: 1rem;
+        user-select: none;
+      }
+
+      #folder-loader {
+        width: 64px;
+        height: 64px;
+        margin-bottom: -5px;
+        transform-origin: center;
+        animation: wiggle 0.7s infinite ease-in-out;
+      }
+
+      /* Folder colors */
+      .folder-top {
+        fill: #85beff;
+      }
+      .folder-bottom {
+        fill: #58a6ff;
+      }
+
+      /* Sparkles ✨ */
+      .sparkle {
+        fill: #ffd700;
+        opacity: 0;
+      }
+      .s1 {
+        animation: sparkle 1s infinite 0.2s;
+      }
+      .s2 {
+        animation: sparkle 1.2s infinite 0.4s;
+      }
+      .s3 {
+        animation: sparkle 1s infinite 0.6s;
+      }
+
+      @keyframes wiggle {
+        0%,
+        100% {
+          transform: rotate(0deg);
+        }
+        25% {
+          transform: rotate(-6deg);
+        }
+        75% {
+          transform: rotate(6deg);
+        }
+      }
+      @keyframes sparkle {
+        0%,
+        60% {
+          opacity: 0;
+          transform: scale(0.5);
+        }
+        80% {
+          opacity: 1;
+          transform: scale(1.2);
+        }
+        100% {
+          opacity: 0;
+          transform: scale(0.6);
+        }
+      }
     </style>
   </head>
   <body>
     <h2>📂 Hacktopus404/frontend — Folder Explorer</h2>
-    <ul id="repo-tree"></ul>
+
+    <!-- ⭐ COOL SVG LOADING ANIMATION -->
+    <div id="loading">
+      <svg id="folder-loader" viewBox="0 0 64 64">
+        <path class="folder-top" d="M8 18h18l4 4h26v8H8z" />
+        <rect class="folder-bottom" x="8" y="26" width="48" height="30" rx="3" />
+        <circle class="sparkle s1" cx="20" cy="12" r="1.6" />
+        <circle class="sparkle s2" cx="46" cy="14" r="2" />
+        <circle class="sparkle s3" cx="35" cy="8" r="1.4" />
+      </svg>
+      <p>Loading...</p>
+    </div>
+
+    <ul id="repo-tree" style="display:none;"></ul>
 
     <script>
       const owner = "Hacktopus404";
@@ -134,10 +218,7 @@
         const root = {};
 
         list.forEach((item) => {
-          // Ignore LICENSE + README
           if (ignoredFiles.includes(item.path)) return;
-
-          // Ignore only root index.html
           if (item.path.toLowerCase() === "index.html") return;
 
           const parts = item.path.split("/");
@@ -148,7 +229,7 @@
               current[part] = { __filesize: item.size ?? null };
 
             if (i === parts.length - 1) {
-              current[part].__type = item.type; // blob (file) or tree (folder)
+              current[part].__type = item.type;
             }
             current = current[part];
           });
@@ -197,12 +278,16 @@
 
       // Load everything
       (async () => {
+        document.getElementById("loading").style.display = "flex";
+        document.getElementById("repo-tree").style.display = "none";
+
         const tree = await fetchRepoTree();
         const nested = buildNestedTree(tree);
         renderTree(nested, document.getElementById("repo-tree"));
+
+        document.getElementById("loading").style.display = "none";
+        document.getElementById("repo-tree").style.display = "block";
       })();
     </script>
   </body>
 </html>
-
-
